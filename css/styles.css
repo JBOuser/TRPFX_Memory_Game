@@ -221,8 +221,7 @@ https://codepen.io/pirrera/pen/bqVeGx
 .container_menu img {
 	width: 300px;
 	/* margin-bottom: 100px; */
-	padding: 30px;
-	text-align: center;
+	padding-bottom: 30px;
 }
 
 /* .button::after {
