@@ -163,7 +163,7 @@ body {
 	opacity: 50%;
 }
 
-.container_video .menu_container {
+.container_video .container_menu {
 	position: relative;
 	z-index: 1;
 	margin: 0 auto;
@@ -213,15 +213,16 @@ Test gradient colors:
 https://codepen.io/pirrera/pen/bqVeGx
 */
 
-.menu_container a {
+.container_menu a {
 	color: rgb(56, 56, 56);
 	text-decoration: none;
 }
 
-.menu_container img {
+.container_menu img {
 	width: 300px;
 	/* margin-bottom: 100px; */
 	padding: 30px;
+	text-align: center;
 }
 
 /* .button::after {
@@ -284,7 +285,7 @@ https://codepen.io/pirrera/pen/bqVeGx
 } */
 
 @media screen and (max-width: 768px) {
-	.container_video .menu_container {
+	.container_video .container_menu {
 		width: 80vw;
 	}
 	.button {
