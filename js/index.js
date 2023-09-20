@@ -1,19 +1,27 @@
 class Game {
 	constructor() {
 
-		this.items = [
-			{'id':0,'name':'bitcoin','image':'../img/bitcoin_card.png'},
-			{'id':1,'name':'break_even','image':'../img/break_even_card.png'},
-			{'id':2,'name':'candles','image':'../img/candles_card.png'},
-			{'id':3,'name':'ethereum','image':'../img/ethereum_card.png'},
-			{'id':4,'name':'eurusd','image':'../img/eurusd_card.png'},
-			{'id':5,'name':'gbpjpy','image':'../img/gbpjpy_card.png'},
-			{'id':6,'name':'stop_loss','image':'../img/stop_loss_card.png'},
-			{'id':7,'name':'take_profit','image':'../img/take_profit_card.png'},
-			{'id':8,'name':'xagusd','image':'../img/xagusd_card.png'},
-			{'id':9,'name':'xauusd','image':'../img/xauusd_card.png'}
+		this.images = [
+			'../img/bitcoin_card.png',
+			'../img/bear_market_card.png',
+			'../img/break_even_card.png',
+			'../img/bull_market_card.png',
+			'../img/buy_card.png',
+			'../img/buy_sell_card.png',
+			'../img/candles_card.png',
+			'../img/ethereum_card.png',
+			'../img/eurusd_card.png',
+			'../img/gbpjpy_card.png',
+			'../img/metatrader_card.png',
+			'../img/stop_loss_card.png',
+			'../img/sell_card.png',
+			'../img/take_profit_card.png',
+			'../img/trading_news_card.png',
+			'../img/xagusd_card.png',
+			'../img/xauusd_card.png'
 		]
-
+		
+		this.items = []
 		this.cards = new Array()
 		this.cards_ids = new Array()
 		this.current_level = 0
@@ -38,22 +46,31 @@ class Game {
 		this.stop = true
 	}
 
-	async initGame() {
+	initGame() {
 		this.current_level = 0
 		this.choseCard = this.choseCard.bind(this)
 
-		/*1.create a list with the pair items ids*/
+		/*1.Sort the images, get only 10 and create the items*/
+		this.images = this.sortRandomArray(this.images);
+		this.items = this.createItems(
+			this.getALimitQuantityOfCards(this.images, 10)
+		);
+
+		//TEST
+		//console.log(this.items)
+
+		/*2.create a list with the pair items ids*/
 		this.items.forEach((card) => {
 			this.cards_ids.push(card.id)
 			this.cards_ids.push(card.id)
 		});		
 
-		/*2.Sort the ids list randomly*/
+		/*3.Sort the ids list randomly*/
 		this.cards_ids = this.cards_ids.sort(function() {
 			return Math.random() - 0.5
 		})
 		
-		/*3.Create a container's card for each paired item*/
+		/*4.Create a container's card for each paired item*/
 		this.cards_ids.forEach((id,index) =>  
 		{
 			var card = document.createElement('div')
@@ -77,11 +94,32 @@ class Game {
 			this.container.appendChild(card)		
 		})	
 
-		// 4.wait 1 second to loading container
+		// 5.wait 1 second to loading container
 		setTimeout(() => {
 			this.loading_container.style.display = 'none'
 			this.container.style.display = 'flex'
 		}, 1000)			
+	}
+
+	sortRandomArray(array){
+		return array.sort(() => Math.random() - 0.5)
+	}
+
+	getALimitQuantityOfCards(array, limit){
+		return array.slice(0,limit) 
+	}
+
+	createItems(cards_list){
+		var items=[]
+		cards_list.forEach((path,index) => {
+			var item = {
+				'id':index,
+				'name':path.split("/")[path.split("/").length-1].split("_card.png")[0],
+				'image':path
+			}
+			items.push(item);
+		})
+		return items
 	}
 
 	addClickEvent(n) {

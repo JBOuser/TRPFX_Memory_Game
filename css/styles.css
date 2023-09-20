@@ -45,8 +45,19 @@ body {
 	color: white;
 	font-size: 33px;
 	letter-spacing: 5px;
-	font-weight: lighter;	
+	font-weight: lighter;
 	text-align: center;
+}
+
+.remove_link_decoration {
+	color: inherit;
+	font-weight: inherit;
+	text-decoration: none;
+	text-align: inherit;
+}
+
+#game_title_text {
+	font-weight: lighter;
 }
 
 #loading img {
