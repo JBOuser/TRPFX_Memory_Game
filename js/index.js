@@ -20,6 +20,9 @@ class Game {
 			'../img/xagusd_card.png',
 			'../img/xauusd_card.png'
 		]
+
+		//CONSTANTS
+		this.ONE_THOUSAND_NUMBER=1000
 		
 		this.items = []
 		this.cards = new Array()
@@ -34,7 +37,7 @@ class Game {
 		this.loading_container = document.getElementById('loading')
 		this.movements_container = document.getElementById('movements')
 		this.container = document.getElementById('game')
-		this.time = true
+		this.is_running_time = true
 
 		//Time
 		this.first_movement = false
@@ -43,7 +46,7 @@ class Game {
 		this.seconds = 0
 		this.decimals = 0
 		this.timer = ''
-		this.stop = true
+		this.stop = true		
 	}
 
 	initGame() {
@@ -73,23 +76,7 @@ class Game {
 		/*4.Create a container's card for each paired item*/
 		this.cards_ids.forEach((id,index) =>  
 		{
-			var card = document.createElement('div')
-			card.setAttribute('id',index)
-			card.setAttribute('id_card',id)
-			card.classList.add('card')
-			card.innerText = id
-			card.setAttribute('data-position', index)
-			card.addEventListener('click', this.choseCard)
-			card.innerHTML =
-				'<div class="front front_flip" data-position="' +
-				index +
-				'"></div><div class="back back_flip" data-position="' +
-				index +
-				'" style="background-image: url(' +
-				this.items[id].image +
-				');">' +
-				'' +
-				'</div>'
+			var card = this.createCard(id, index, this.choseCard, this.items[id].image)
 			this.cards.push(card)
 			this.container.appendChild(card)		
 		})	
@@ -98,7 +85,7 @@ class Game {
 		setTimeout(() => {
 			this.loading_container.style.display = 'none'
 			this.container.style.display = 'flex'
-		}, 1000)			
+		}, this.ONE_THOUSAND_NUMBER)			
 	}
 
 	sortRandomArray(array){
@@ -122,6 +109,27 @@ class Game {
 		return items
 	}
 
+	createCard(id, index, card_object, card_image) {
+		var card = document.createElement('div')
+		card.setAttribute('id',index)
+		card.setAttribute('id_card',id)
+		card.classList.add('card')
+		card.innerText = id
+		card.setAttribute('data-position', index)
+		card.addEventListener('click', card_object)
+		card.innerHTML =
+			'<div class="front front_flip" data-position="' +
+			index +
+			'"></div><div class="back back_flip" data-position="' +
+			index +
+			'" style="background-image: url(' +
+			card_image +
+			');">' +
+			'' +
+			'</div>'
+		return card
+	}
+
 	addClickEvent(n) {
 		this.cards[n].addEventListener('click', this.choseCard)
 	}
@@ -131,9 +139,12 @@ class Game {
 	}
 
 	choseCard(e) {
-		if (this.time === true) {
+		if (this.is_running_time === true) {
 			switch (this.chosen_cards) {
 				case 0:
+					this.movements++
+					this.movements_container.innerText = `Movimientos: ${this.movements}`
+
 					if (!this.first_movement) {
 						this.initCronometer()
 					}
@@ -142,12 +153,11 @@ class Game {
 					this.cards[this.chosen_card_one].classList.add('flip')
 					this.removeClickEvent(this.chosen_card_one)
 					this.chosen_cards++
-					this.movements++
-					this.movements_container.innerText = `Movimientos: ${this.movements}`
 					break
 				case 1:
 					this.movements++
 					this.movements_container.innerText = `Movimientos: ${this.movements}`
+					
 					this.chosen_card_two = e.target.dataset.position
 					this.cards[this.chosen_card_two].classList.add('flip')
 					if (
@@ -160,16 +170,16 @@ class Game {
 						if (this.game_counter === this.level_squares[this.current_level]) {
 							setTimeout(() => {
 								this.endGame()
-							}, 1000)
+							}, this.ONE_THOUSAND_NUMBER)
 						}
 					} else {
 						// console.log('Pair not matched')
-						this.time = false
+						this.is_running_time = false
 						setTimeout(() => {
 							this.cards[this.chosen_card_one].classList.remove('flip')
 							this.cards[this.chosen_card_two].classList.remove('flip')
-							this.time = true
-						}, 1000)
+							this.is_running_time = true
+						}, this.ONE_THOUSAND_NUMBER)
 						this.addClickEvent(this.chosen_card_one)
 					}
 					this.chosen_cards = 0
@@ -185,7 +195,7 @@ class Game {
 			`Movimientos: ${this.movements} \n\n Tiempo: ${this.timer}`,
 			'success'
 		).then(() => {
-			console.log('Message closed')
+			console.log('') //Message after the SweetAlert is closed
 		})
 	}
 
