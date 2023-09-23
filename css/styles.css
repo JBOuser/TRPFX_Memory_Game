@@ -336,6 +336,8 @@ https://codepen.io/pirrera/pen/bqVeGx
 	}
 }
 
+/*Infinite Rotation*/
+
 .rotate {
 	animation: rotation 4s infinite linear;
 }
@@ -347,4 +349,20 @@ https://codepen.io/pirrera/pen/bqVeGx
 	to {
 		transform: rotate(359deg);
 	}
+}
+
+/*Infinite Flipping Y axe*/
+
+.infinite_flip_Y {
+	animation: flip_Y 12s infinite;
+}
+
+@keyframes flip_Y{
+    from {
+        transform: rotateY(180deg);
+    }
+    
+    to {
+        transform: rotateY(-180deg);
+    }   
 }
